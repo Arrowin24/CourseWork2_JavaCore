@@ -25,7 +25,7 @@ public class DailyTask extends Task implements Repeatable{
 
     //If the start of the daily task is scheduled after the specified date, then it is not displayed
     @Override
-    public boolean checkTaskDaily(LocalDateTime data) {
+    public boolean checkTaskOfDay(LocalDateTime data) {
         return getDateOfCompletion().isBefore(data);
     }
 

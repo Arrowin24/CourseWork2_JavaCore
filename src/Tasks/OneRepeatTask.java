@@ -9,7 +9,7 @@ public class OneRepeatTask extends Task {
     }
 
     @Override
-    public boolean checkTaskDaily(LocalDateTime data) {
+    public boolean checkTaskOfDay(LocalDateTime data) {
         return data.equals(getDateOfCompletion());
     }
 

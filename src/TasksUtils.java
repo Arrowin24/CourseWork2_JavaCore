@@ -18,6 +18,10 @@ public class TasksUtils {
         return tasks;
     }
 
+    public HashMap<Integer, Task> getDeletedTasks() {
+        return deletedTasks;
+    }
+
     public void addTask(Task task) {
         tasks.put(task.getId(), task);
     }
@@ -61,30 +65,37 @@ public class TasksUtils {
         throw new IllegalArgumentException("Не правильно введен тип задачи!");
     }
 
-    public void printAvailableTasks() {
+    public void printTasks() {
+        if(tasks.isEmpty()){
+            System.out.println("Пока что ни одна задача не была создана");
+            return;
+        }
         for (Task task : tasks.values()) {
-            if (task.getClass().equals(OneRepeatTask.class)) {
-                deletePastOneRepeatableTask((OneRepeatTask) task);
-            }
             System.out.println(task);
         }
     }
 
     public void printTasksOf(LocalDateTime date) {
         for (Task task : tasks.values()) {
+            if (task.checkTaskOfDay(date)) {
+                System.out.println(task);
+            }
+        }
+    }
+
+    public void printDeletedTasks() {
+        if(deletedTasks.isEmpty()){
+            System.out.println("Пока что ни одна задача не удалена");
+            return;
+        }
+        for (Task task : deletedTasks.values()) {
             System.out.println(task);
         }
     }
 
-    public void deleteTask(Task task) {
+    public void deleteTask(int taskId) {
+        Task task = tasks.get(taskId);
         deletedTasks.put(task.getId(), task);
-        tasks.remove(task.getId());
+        tasks.remove(taskId);
     }
-
-    private void deletePastOneRepeatableTask(OneRepeatTask task) {
-        if (task.getDateOfCompletion().isBefore(LocalDateTime.now())) {
-            deleteTask(task);
-        }
-    }
-
 }

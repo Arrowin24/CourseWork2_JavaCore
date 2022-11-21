@@ -27,7 +27,7 @@ public class WeeklyTask extends Task implements Repeatable{
     }
 
     @Override
-    public boolean checkTaskDaily(LocalDateTime data) {
+    public boolean checkTaskOfDay(LocalDateTime data) {
         if (getDateOfCompletion().isAfter(data)) {
             return false;
         }

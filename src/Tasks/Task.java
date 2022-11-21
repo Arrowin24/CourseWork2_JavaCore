@@ -1,9 +1,6 @@
 package Tasks;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
 
 public abstract class Task {
     private static int idCounter;
@@ -22,7 +19,7 @@ public abstract class Task {
         this.dateOfCompletion = dateOfCompletion;
     }
 
-    public abstract boolean checkTaskDaily(LocalDateTime date);
+    public abstract boolean checkTaskOfDay(LocalDateTime date);
 
     public int getId() {
         return id;
