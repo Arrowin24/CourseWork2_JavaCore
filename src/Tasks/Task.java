@@ -5,12 +5,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDateTime;
 
-public abstract class Task{
+public abstract class Task {
     private static int idCounter;
     private final int id;
     private String headline;
     private String description;
     private boolean isWorkTask;
+
     private LocalDateTime dateOfCompletion;
 
     public Task(String headline, String description, boolean isWorkTask, LocalDateTime dateOfCompletion) {
@@ -20,6 +21,8 @@ public abstract class Task{
         id = idCounter++;
         this.dateOfCompletion = dateOfCompletion;
     }
+
+    public abstract boolean checkTaskDaily(LocalDateTime date);
 
     public int getId() {
         return id;
@@ -42,11 +45,20 @@ public abstract class Task{
     }
 
     public void setHeadline(String headline) {
-        this.headline = headline;
+        if (!headline.isBlank()) {
+            this.headline = headline;
+        } else {
+            throw new IllegalArgumentException("Неправильно введен Заголовок задачи");
+        }
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (!description.isBlank()) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("Неправильно введено Описание задачи");
+        }
+
     }
 
     public void setWorkTask(boolean workTask) {
@@ -59,12 +71,18 @@ public abstract class Task{
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", headline='" + headline + '\'' +
-                ", description='" + description + '\'' +
-                ", isWorkTask=" + isWorkTask +
-                ", dateOfCompletion=" + dateOfCompletion +
-                '}';
+        String isWork;
+        if (isWorkTask) {
+            isWork = "Рабочая";
+        } else {
+            isWork = "Личная";
+        }
+        return "Задача: " +
+                "Уникальный номер = " + id +
+                ", Заголовок = '" + headline + '\'' +
+                ", Описание = '" + description + '\'' +
+                ", Тип = '" + isWork + '\'' +
+                ", Дата начала выполнения  = " + dateOfCompletion.toLocalDate() +
+                ", Время = " + dateOfCompletion.toLocalTime();
     }
 }

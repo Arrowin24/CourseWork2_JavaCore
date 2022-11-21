@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class DailyTask extends Task implements Repeatable {
+public class DailyTask extends Task implements Repeatable{
     private LocalTime timeOfRepeat = LocalTime.of(getDateOfCompletion().getHour(), getDateOfCompletion().getMinute());
 
     public DailyTask(String headline, String description, boolean isWorkTask, LocalDateTime dateOfCompletion) {
@@ -31,8 +31,9 @@ public class DailyTask extends Task implements Repeatable {
 
     @Override
     public String toString() {
-        return "DailyTask{" +
-                "timeOfRepeat=" + timeOfRepeat +
-                '}';
+        String task = super.toString();
+        return task + ", Повторяемость задачи = 'Ежедневная'"+
+                ", Дата ближайшего повторения = " + GetNextDateAndTime().toLocalDate() +
+                ", Время повторения = "+ GetNextDateAndTime().toLocalTime();
     }
 }

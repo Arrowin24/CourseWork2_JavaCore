@@ -23,7 +23,7 @@ public class Main {
                             // todo: обрабатываем пункт меню 2
                             break;
                         case 3:
-                            // todo: обрабатываем пункт меню 3
+                            inputDay(scanner);
                             break;
                         case 0:
                             break label;
@@ -37,10 +37,11 @@ public class Main {
     }
 
     private static void inputTask(Scanner scanner) {
-        System.out.print("Введите название задачи: ");
-        String taskName = scanner.next();
+        System.out.print("Введите заголовок задачи: ");
+        scanner.next();
+        String taskName = scanner.nextLine();
         System.out.print("Введите описание: ");
-        String description = scanner.next();
+        String description = scanner.nextLine();
         System.out.println("Введите тип задачи:\n" +
                 "Если задача личная, то введите: 0 \t" +
                 "Если задача рабочая, то введите: 1");
@@ -61,11 +62,24 @@ public class Main {
         System.out.println(tasksUtils.getTasks().toString());
     }
 
+    public static void inputDeleteTask(Scanner scanner) {
+        System.out.print(" Введите id доступных для удаления задач : ");
+
+    }
+
+    public static void inputDay(Scanner scanner) {
+        System.out.print("Введите день в формате дд.мм.гггг: ");
+        String date = scanner.next();
+        LocalDateTime dateAndTime = tasksUtils.createDateAndTime(date, "00:00");
+        System.out.println("Задачи на :" + dateAndTime.toLocalDate() + ", " + dateAndTime.toLocalDate().getDayOfWeek());
+        tasksUtils.printTasksOf(dateAndTime);
+    }
+
     private static void printMenu() {
         System.out.println("" +
                 "1. Добавить задачу\n" +
                 "2. Удалить задачу\n" +
-                "3. Получить задачу на указанный день\n" +
+                "3. Получить задачи на указанный день\n" +
                 "0. Выход");
     }
 }

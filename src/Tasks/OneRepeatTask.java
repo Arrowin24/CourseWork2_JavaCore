@@ -2,15 +2,10 @@ package Tasks;
 
 import java.time.LocalDateTime;
 
-public class OneRepeatTask extends Task implements Repeatable {
+public class OneRepeatTask extends Task {
 
     public OneRepeatTask(String headline, String description, boolean isWorkTask, LocalDateTime dateOfCompletion) {
         super(headline, description, isWorkTask, dateOfCompletion);
-    }
-
-    @Override
-    public LocalDateTime GetNextDateAndTime() {
-        return getDateOfCompletion();
     }
 
     @Override
@@ -18,5 +13,9 @@ public class OneRepeatTask extends Task implements Repeatable {
         return data.equals(getDateOfCompletion());
     }
 
-
+    @Override
+    public String toString() {
+        String task = super.toString();
+        return task + ", Повторяемость задачи = 'Одноразовая'";
+    }
 }

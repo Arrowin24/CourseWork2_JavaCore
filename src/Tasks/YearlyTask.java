@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
-public class YearlyTask extends Task implements Repeatable {
+public class YearlyTask extends Task implements Repeatable{
     private LocalTime timeOfRepeat = LocalTime.of(getDateOfCompletion().getHour(), getDateOfCompletion().getMinute());
     private int repeatDayOfYear = getDateOfCompletion().getDayOfYear();
 
@@ -34,5 +34,12 @@ public class YearlyTask extends Task implements Repeatable {
             return false;
         }
         return data.getDayOfYear()==repeatDayOfYear;
+    }
+    @Override
+    public String toString() {
+        String task = super.toString();
+        return task + ", Повторяемость задачи = 'Ежегодная'" +
+                ", Дата ближайшего повторения = " + GetNextDateAndTime().toLocalDate() +
+                ", Время повторения = "+ GetNextDateAndTime().toLocalTime();
     }
 }
