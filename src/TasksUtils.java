@@ -66,7 +66,7 @@ public class TasksUtils {
     }
 
     public void printTasks() {
-        if(tasks.isEmpty()){
+        if (tasks.isEmpty()) {
             System.out.println("Пока что ни одна задача не была создана");
             return;
         }
@@ -84,7 +84,7 @@ public class TasksUtils {
     }
 
     public void printDeletedTasks() {
-        if(deletedTasks.isEmpty()){
+        if (deletedTasks.isEmpty()) {
             System.out.println("Пока что ни одна задача не удалена");
             return;
         }
@@ -97,5 +97,34 @@ public class TasksUtils {
         Task task = tasks.get(taskId);
         deletedTasks.put(task.getId(), task);
         tasks.remove(taskId);
+    }
+
+    public void checkTaskId(int taskId) {
+        if (!tasks.containsKey(taskId)) {
+            throw new IllegalArgumentException("Задачи с таким ID не существует");
+        }
+    }
+
+    public void changeHeadline(int taskId, String headline) {
+        tasks.get(taskId).setHeadline(headline);
+    }
+
+    public void changeDescription(int taskId, String description) {
+        tasks.get(taskId).setDescription(description);
+    }
+
+    public void changeDate(int taskId, LocalDateTime date) {
+        LocalDate localDate = date.toLocalDate();
+        LocalTime localTime = tasks.get(taskId).getDateOfCompletion().toLocalTime();
+        tasks.get(taskId).setDateOfCompletion(LocalDateTime.of(localDate, localTime));
+    }
+
+    public void changeTime(int taskId, LocalDateTime time) {
+        LocalDate localDate = tasks.get(taskId).getDateOfCompletion().toLocalDate();
+        LocalTime localTime = time.toLocalTime();
+        tasks.get(taskId).setDateOfCompletion(LocalDateTime.of(localDate, localTime));
+    }
+    public void changeIsWork(int taskId, boolean isWork){
+        tasks.get(taskId).setWorkTask(isWork);
     }
 }

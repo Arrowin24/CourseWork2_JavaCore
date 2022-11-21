@@ -8,7 +8,6 @@ public abstract class Task {
     private String headline;
     private String description;
     private boolean isWorkTask;
-
     private LocalDateTime dateOfCompletion;
 
     public Task(String headline, String description, boolean isWorkTask, LocalDateTime dateOfCompletion) {
@@ -65,6 +64,7 @@ public abstract class Task {
     public void setDateOfCompletion(LocalDateTime dateOfCompletion) {
         this.dateOfCompletion = dateOfCompletion;
     }
+
 
     @Override
     public String toString() {
