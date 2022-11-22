@@ -163,11 +163,11 @@ public class TasksUtils {
 
     //Метод необходимый для сортировки массива. Определяет ближайшую дату задачи
     private LocalDateTime getNextDateTime(Task task) {
-        if (task.getClass().equals(OneRepeatTask.class)) {
-            return task.getDateOfCompletion();
-        } else {
+        if (task instanceof Repeatable) {
             Repeatable repeat = (Repeatable) task;
             return repeat.GetNextDateAndTime();
+        } else {
+            return task.getDateOfCompletion();
         }
     }
 }
