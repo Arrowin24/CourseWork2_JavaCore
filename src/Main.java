@@ -28,7 +28,10 @@ public class Main {
                             outputDeletedTask(scanner); // вывод удаленных задач
                             break;
                         case 5:
-                            inputChange(scanner);
+                            inputChange(scanner); // изменение параметров задачи
+                            break;
+                        case 6:
+                            printSortedByDayTasks(scanner); // вывод задач сортированных по дате
                             break;
                         case 0:
                             break label;
@@ -41,6 +44,7 @@ public class Main {
         }
     }
 
+    //Интерфейс консоли для ввода задачи
     private static void inputTask(Scanner scanner) {
         scanner.nextLine();
         System.out.print("Введите заголовок задачи: ");
@@ -70,6 +74,7 @@ public class Main {
         scanner.nextLine();
     }
 
+    //Интерфейс консоли для удаления задачи
     public static void inputDeleteTask(Scanner scanner) {
         System.out.println("На данный момент доступны следующие задачи: ");
         tasksUtils.printTasks();
@@ -79,11 +84,13 @@ public class Main {
         System.out.print(" Введите id доступных для удаления задач: ");
         int taskId = scanner.nextInt();
         tasksUtils.deleteTask(taskId);
+        System.out.println("Задача успешно удалена");
         System.out.println("Для выхода в меню нажмите Enter");
         scanner.nextLine();
         scanner.nextLine();
     }
 
+    //Интерфейс консоли для вывода списка удаленных задач
     public static void outputDeletedTask(Scanner scanner) {
         System.out.println("Список удаленных задач: ");
         tasksUtils.printDeletedTasks();
@@ -94,6 +101,7 @@ public class Main {
         scanner.nextLine();
     }
 
+    // интерфейс консоли для вывода всех задач на день
     public static void inputDay(Scanner scanner) {
         if (tasksUtils.getTasks().isEmpty()) {
             System.out.println("Ни одна задача еще не добавлена в ежедневник!");
@@ -109,6 +117,7 @@ public class Main {
         scanner.nextLine();
     }
 
+    // Интерфейс консоли для изменения параметров задач
     public static void inputChange(Scanner scanner) {
         System.out.print("Введите ID задачи, которую хотите отредактировать: ");
         int taskID = scanner.nextInt();
@@ -117,12 +126,12 @@ public class Main {
         System.out.println("0. Заголовок \t 1. Описание \t 2. Тип задачи \t 3. Дату выполнения \t 4. Время выполнения");
         System.out.print("Вы ввели: ");
         int numberOfChange = scanner.nextInt();
-        switch (numberOfChange){
+        switch (numberOfChange) {
             case 0:
                 scanner.nextLine();
                 System.out.print("Введите заголовок задачи: ");
                 String taskName = scanner.nextLine();
-                tasksUtils.changeHeadline(taskID,taskName);
+                tasksUtils.changeHeadline(taskID, taskName);
                 break;
             case 1:
                 System.out.print("Введите описание: ");
@@ -137,7 +146,7 @@ public class Main {
                 boolean isWork = tasksUtils.createIsWork(scanner.nextInt());
                 tasksUtils.changeIsWork(taskID, isWork);
                 break;
-            case  3:
+            case 3:
                 System.out.println("Введите дату начала задачи в формате дд.мм.гггг : ");
                 String date = scanner.next();
                 LocalDateTime localDate = tasksUtils.createDateAndTime(date, "00:00");
@@ -157,6 +166,17 @@ public class Main {
         scanner.nextLine();
     }
 
+    //Интерфейс консоли для вывода сортированных задач по дате
+    public static void printSortedByDayTasks(Scanner scanner) {
+        System.out.println("Задачи сортированные по дате ближайшего повторения: ");
+        tasksUtils.printSortedByDateTasks();
+        System.out.println("Нажмите Enter для продолжения...");
+        scanner.nextLine();
+        scanner.nextLine();
+
+    }
+
+    //Интерфейс консоли для вывода меню
     private static void printMenu() {
         System.out.println("" +
                 "1. Добавить задачу\n" +
@@ -164,6 +184,7 @@ public class Main {
                 "3. Получить задачи на указанный день\n" +
                 "4. Получить все удаленные задачи\n" +
                 "5. Редактировать задачу\n" +
+                "6. Вывод всех задач, сортированных по дате\n" +
                 "0. Выход");
     }
 }

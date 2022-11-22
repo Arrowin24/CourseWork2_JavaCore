@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TasksUtils {
     private HashMap<Integer, Task> tasks = new HashMap<>();
@@ -65,6 +67,7 @@ public class TasksUtils {
         throw new IllegalArgumentException("Не правильно введен тип задачи!");
     }
 
+    //Вывод всех активных задач
     public void printTasks() {
         if (tasks.isEmpty()) {
             System.out.println("Пока что ни одна задача не была создана");
@@ -76,13 +79,19 @@ public class TasksUtils {
     }
 
     public void printTasksOf(LocalDateTime date) {
+        boolean haveDailyTask = false;
         for (Task task : tasks.values()) {
             if (task.checkTaskOfDay(date)) {
+                haveDailyTask = true;
                 System.out.println(task);
             }
         }
+        if (!haveDailyTask) {
+            System.out.println("На данный день нет никаких запланированных задач");
+        }
     }
 
+    //Методы для печати "удаленных задач"
     public void printDeletedTasks() {
         if (deletedTasks.isEmpty()) {
             System.out.println("Пока что ни одна задача не удалена");
@@ -93,12 +102,14 @@ public class TasksUtils {
         }
     }
 
+    //"Удаление" задачи из списка актуальных задач
     public void deleteTask(int taskId) {
         Task task = tasks.get(taskId);
         deletedTasks.put(task.getId(), task);
         tasks.remove(taskId);
     }
 
+    //Методы для изменения какого-либо параметра задачи
     public void checkTaskId(int taskId) {
         if (!tasks.containsKey(taskId)) {
             throw new IllegalArgumentException("Задачи с таким ID не существует");
@@ -124,7 +135,39 @@ public class TasksUtils {
         LocalTime localTime = time.toLocalTime();
         tasks.get(taskId).setDateOfCompletion(LocalDateTime.of(localDate, localTime));
     }
-    public void changeIsWork(int taskId, boolean isWork){
+
+    public void changeIsWork(int taskId, boolean isWork) {
         tasks.get(taskId).setWorkTask(isWork);
+    }
+
+    //Метод для печати сортированного списка задач
+    public void printSortedByDateTasks() {
+        List<Task> sortedTask = new ArrayList<>(tasks.values());
+
+        //Сортировка пузырьком листа по датам
+        for (int i = sortedTask.size() - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                LocalDateTime dateTime1 = getNextDateTime(sortedTask.get(j));
+                LocalDateTime dateTime2 = getNextDateTime(sortedTask.get(j + 1));
+                if (dateTime1.isAfter(dateTime2)) {
+                    Task task = sortedTask.get(j);
+                    sortedTask.set(j, sortedTask.get(j + 1));
+                    sortedTask.set(j + 1, task);
+                }
+            }
+        }
+        for (Task task : sortedTask) {
+            System.out.println(task);
+        }
+    }
+
+    //Метод необходимый для сортировки массива. Определяет ближайшую дату задачи
+    private LocalDateTime getNextDateTime(Task task) {
+        if (task.getClass().equals(OneRepeatTask.class)) {
+            return task.getDateOfCompletion();
+        } else {
+            Repeatable repeat = (Repeatable) task;
+            return repeat.GetNextDateAndTime();
+        }
     }
 }

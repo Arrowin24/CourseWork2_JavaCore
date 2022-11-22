@@ -18,6 +18,7 @@ public abstract class Task {
         this.dateOfCompletion = dateOfCompletion;
     }
 
+    //Метод для проверки задач на день
     public abstract boolean checkTaskOfDay(LocalDateTime date);
 
     public int getId() {

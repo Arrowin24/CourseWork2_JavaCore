@@ -6,10 +6,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
-public class WeeklyTask extends Task implements Repeatable{
+public class WeeklyTask extends Task implements Repeatable {
 
-    private LocalTime timeOfRepeat = LocalTime.of(getDateOfCompletion().getHour(), getDateOfCompletion().getMinute());
-    private DayOfWeek repeatDayOfWeek = DayOfWeek.of(getDateOfCompletion().getDayOfWeek().getValue());
 
     public WeeklyTask(String headline, String description, boolean isWorkTask, LocalDateTime dateOfCompletion) {
         super(headline, description, isWorkTask, dateOfCompletion);
@@ -17,6 +15,8 @@ public class WeeklyTask extends Task implements Repeatable{
 
     @Override
     public LocalDateTime GetNextDateAndTime() {
+        LocalTime timeOfRepeat = LocalTime.of(getDateOfCompletion().getHour(), getDateOfCompletion().getMinute());
+        DayOfWeek repeatDayOfWeek = DayOfWeek.of(getDateOfCompletion().getDayOfWeek().getValue());
         if (getDateOfCompletion().isAfter(LocalDateTime.now())) {
             return getDateOfCompletion();
         }
@@ -28,6 +28,7 @@ public class WeeklyTask extends Task implements Repeatable{
 
     @Override
     public boolean checkTaskOfDay(LocalDateTime data) {
+        DayOfWeek repeatDayOfWeek = DayOfWeek.of(getDateOfCompletion().getDayOfWeek().getValue());
         if (getDateOfCompletion().isAfter(data)) {
             return false;
         }
@@ -39,6 +40,6 @@ public class WeeklyTask extends Task implements Repeatable{
         String task = super.toString();
         return task + ", Повторяемость задачи = 'Еженедельная" +
                 ", Дата ближайшего повторения = " + GetNextDateAndTime().toLocalDate() +
-                ", Время повторения = "+ GetNextDateAndTime().toLocalTime();
+                ", Время повторения = " + GetNextDateAndTime().toLocalTime();
     }
 }
