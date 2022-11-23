@@ -1,7 +1,7 @@
-package Tasks;
+package tasks;
 
 import java.time.LocalDateTime;
 
 public interface Repeatable {
-    public LocalDateTime GetNextDateAndTime();
+    public LocalDateTime getNextDateAndTime();
 }

@@ -1,4 +1,4 @@
-package Tasks;
+package tasks;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ public class DailyTask extends Task implements Repeatable {
 
     // Check the recurrence date, and only then check the current time and the time of the daily task
     @Override
-    public LocalDateTime GetNextDateAndTime() {
+    public LocalDateTime getNextDateAndTime() {
         LocalTime timeOfRepeat = LocalTime.of(getDateOfCompletion().getHour(), getDateOfCompletion().getMinute());
         if (getDateOfCompletion().isAfter(LocalDateTime.now())) {
             return getDateOfCompletion();
@@ -34,7 +34,7 @@ public class DailyTask extends Task implements Repeatable {
     public String toString() {
         String task = super.toString();
         return task + ", Повторяемость задачи = 'Ежедневная'" +
-                ", Дата ближайшего повторения = " + GetNextDateAndTime().toLocalDate() +
-                ", Время повторения = " + GetNextDateAndTime().toLocalTime();
+                ", Дата ближайшего повторения = " + getNextDateAndTime().toLocalDate() +
+                ", Время повторения = " + getNextDateAndTime().toLocalTime();
     }
 }

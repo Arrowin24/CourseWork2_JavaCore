@@ -1,5 +1,5 @@
 
-import Tasks.*;
+import tasks.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TasksUtils {
+public class TaskManager {
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Task> deletedTasks = new HashMap<>();
 
-    public TasksUtils() {
+    public TaskManager() {
     }
 
     public HashMap<Integer, Task> getTasks() {
@@ -165,7 +165,7 @@ public class TasksUtils {
     private LocalDateTime getNextDateTime(Task task) {
         if (task instanceof Repeatable) {
             Repeatable repeat = (Repeatable) task;
-            return repeat.GetNextDateAndTime();
+            return repeat.getNextDateAndTime();
         } else {
             return task.getDateOfCompletion();
         }

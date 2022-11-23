@@ -1,10 +1,10 @@
-import Tasks.Task;
+import tasks.Task;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
-    static TasksUtils tasksUtils = new TasksUtils();
+    static TaskManager taskManager = new TaskManager();
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -55,7 +55,7 @@ public class Main {
                 "Если задача личная, то введите: 0 \t" +
                 "Если задача рабочая, то введите: 1");
         System.out.print("Вы ввели: ");
-        boolean isWork = tasksUtils.createIsWork(scanner.nextInt());
+        boolean isWork = taskManager.createIsWork(scanner.nextInt());
         System.out.println("Введите число от 0 до 4 для выбора повторяемости:\n" +
                 "0. Однократня \t 1. Ежедневная \t 2. Еженедельная \t 3. Ежемесячная \t 4. Ежегодная");
         System.out.print("Вы ввели: ");
@@ -64,9 +64,9 @@ public class Main {
         String date = scanner.next();
         System.out.println("Введите время начала задачи в формате чч:мм : ");
         String time = scanner.next();
-        LocalDateTime localDateTime = tasksUtils.createDateAndTime(date, time);
-        Task task = tasksUtils.createTask(taskName, description, localDateTime, isWork, repeatable);
-        tasksUtils.addTask(task);
+        LocalDateTime localDateTime = taskManager.createDateAndTime(date, time);
+        Task task = taskManager.createTask(taskName, description, localDateTime, isWork, repeatable);
+        taskManager.addTask(task);
         System.out.println("Созданная задача:");
         System.out.println(task.toString());
         System.out.print("Для выхода в меню нажмите Enter");
@@ -77,13 +77,13 @@ public class Main {
     //Интерфейс консоли для удаления задачи
     public static void inputDeleteTask(Scanner scanner) {
         System.out.println("На данный момент доступны следующие задачи: ");
-        tasksUtils.printTasks();
-        if (tasksUtils.getTasks().isEmpty()) {
+        taskManager.printTasks();
+        if (taskManager.getTasks().isEmpty()) {
             return;
         }
         System.out.print(" Введите id доступных для удаления задач: ");
         int taskId = scanner.nextInt();
-        tasksUtils.deleteTask(taskId);
+        taskManager.deleteTask(taskId);
         System.out.println("Задача успешно удалена");
         System.out.println("Для выхода в меню нажмите Enter");
         scanner.nextLine();
@@ -93,8 +93,8 @@ public class Main {
     //Интерфейс консоли для вывода списка удаленных задач
     public static void outputDeletedTask(Scanner scanner) {
         System.out.println("Список удаленных задач: ");
-        tasksUtils.printDeletedTasks();
-        if (tasksUtils.getDeletedTasks().isEmpty()) {
+        taskManager.printDeletedTasks();
+        if (taskManager.getDeletedTasks().isEmpty()) {
             return;
         }
         System.out.print("Для выхода в меню нажмите Enter");
@@ -103,15 +103,15 @@ public class Main {
 
     // интерфейс консоли для вывода всех задач на день
     public static void inputDay(Scanner scanner) {
-        if (tasksUtils.getTasks().isEmpty()) {
+        if (taskManager.getTasks().isEmpty()) {
             System.out.println("Ни одна задача еще не добавлена в ежедневник!");
             return;
         }
         System.out.print("Введите день в формате дд.мм.гггг: ");
         String date = scanner.next();
-        LocalDateTime dateAndTime = tasksUtils.createDateAndTime(date, "23:59");
+        LocalDateTime dateAndTime = taskManager.createDateAndTime(date, "23:59");
         System.out.println("Задачи на :" + dateAndTime.toLocalDate() + ", " + dateAndTime.toLocalDate().getDayOfWeek());
-        tasksUtils.printTasksOf(dateAndTime);
+        taskManager.printTasksOf(dateAndTime);
         System.out.println("Для выхода в меню нажмите Enter");
         scanner.nextLine();
         scanner.nextLine();
@@ -121,7 +121,7 @@ public class Main {
     public static void inputChange(Scanner scanner) {
         System.out.print("Введите ID задачи, которую хотите отредактировать: ");
         int taskID = scanner.nextInt();
-        tasksUtils.checkTaskId(taskID);
+        taskManager.checkTaskId(taskID);
         System.out.println("Введите номер пункта, которых хотите изменить: ");
         System.out.println("0. Заголовок \t 1. Описание \t 2. Тип задачи \t 3. Дату выполнения \t 4. Время выполнения");
         System.out.print("Вы ввели: ");
@@ -131,32 +131,32 @@ public class Main {
                 scanner.nextLine();
                 System.out.print("Введите заголовок задачи: ");
                 String taskName = scanner.nextLine();
-                tasksUtils.changeHeadline(taskID, taskName);
+                taskManager.changeHeadline(taskID, taskName);
                 break;
             case 1:
                 System.out.print("Введите описание: ");
                 String description = scanner.nextLine();
-                tasksUtils.changeDescription(taskID, description);
+                taskManager.changeDescription(taskID, description);
                 break;
             case 2:
                 System.out.println("Введите тип задачи:\n" +
                         "Если задача личная, то введите: 0 \t" +
                         "Если задача рабочая, то введите: 1");
                 System.out.print("Вы ввели: ");
-                boolean isWork = tasksUtils.createIsWork(scanner.nextInt());
-                tasksUtils.changeIsWork(taskID, isWork);
+                boolean isWork = taskManager.createIsWork(scanner.nextInt());
+                taskManager.changeIsWork(taskID, isWork);
                 break;
             case 3:
                 System.out.println("Введите дату начала задачи в формате дд.мм.гггг : ");
                 String date = scanner.next();
-                LocalDateTime localDate = tasksUtils.createDateAndTime(date, "00:00");
-                tasksUtils.changeDate(taskID, localDate);
+                LocalDateTime localDate = taskManager.createDateAndTime(date, "00:00");
+                taskManager.changeDate(taskID, localDate);
                 break;
             case 4:
                 System.out.println("Введите время начала задачи в формате чч:мм : ");
                 String time = scanner.next();
-                LocalDateTime localTime = tasksUtils.createDateAndTime("20.10.2020", time);
-                tasksUtils.changeTime(taskID, localTime);
+                LocalDateTime localTime = taskManager.createDateAndTime("20.10.2020", time);
+                taskManager.changeTime(taskID, localTime);
                 break;
             default:
                 System.out.println("Введен неправильный номер пункта!");
@@ -169,7 +169,7 @@ public class Main {
     //Интерфейс консоли для вывода сортированных задач по дате
     public static void printSortedByDayTasks(Scanner scanner) {
         System.out.println("Задачи сортированные по дате ближайшего повторения: ");
-        tasksUtils.printSortedByDateTasks();
+        taskManager.printSortedByDateTasks();
         System.out.println("Нажмите Enter для продолжения...");
         scanner.nextLine();
         scanner.nextLine();
